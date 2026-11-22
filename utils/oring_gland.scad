@@ -14,9 +14,9 @@ function oring_gland_width_ratios() = [[1.78, 1.500], [2.62, 1.417], [3.53, 1.40
 // Width is not a rounding of the cord: compressed by a quarter the section has to go somewhere
 // sideways, so a groove only as wide as the cord is over-full before it closes. Fill binds first.
 function oring_gland_width(cs, i = 0) =
-  i >= len(oring_gland_width_ratios()) ? cs * 1.273
-  : cs <= oring_gland_width_ratios()[i][0] ? cs * oring_gland_width_ratios()[i][1]
-  : oring_gland_width(cs, i + 1);
+    i >= len(oring_gland_width_ratios()) ? cs * 1.273
+    : cs <= oring_gland_width_ratios()[i][0] ? cs * oring_gland_width_ratios()[i][1]
+    : oring_gland_width(cs, i + 1);
 
 function oring_gland_depth(cs, squeeze = 0.25) = cs * (1 - squeeze);
 
@@ -31,7 +31,7 @@ function oring_gland_fill(cs, width, depth) = (PI * pow(cs, 2) / 4) / (width * d
 // Fraction of the cord's section inside the groove, by circular segment. Table A's notes want no
 // less than 75% or the seal rolls or extrudes out.
 function oring_containment(cs, groove_depth) =
-  let (r = cs / 2, d = groove_depth - r)
+    let (r = cs / 2, d = groove_depth - r)
     d >= r ? 1
     : d <= -r ? 0
     : 1 - (r * r * acos(d / r) * PI / 180 - d * sqrt(r * r - d * d)) / (PI * r * r);
@@ -39,8 +39,8 @@ function oring_containment(cs, groove_depth) =
 // Radial glands, where the squeeze is bore minus groove rather than a face closing. The second is
 // the same relation read backwards, off a groove that already exists.
 function oring_rod_gland_diameter(rod_diameter, cs, squeeze = 0.18) =
-  rod_diameter + 2 * oring_gland_depth(cs, squeeze);
+    rod_diameter + 2 * oring_gland_depth(cs, squeeze);
 function oring_rod_gland_squeeze(rod_diameter, groove_diameter, cs) =
-  1 - (groove_diameter - rod_diameter) / 2 / cs;
+    1 - (groove_diameter - rod_diameter) / 2 / cs;
 
 function oring_stretch(ring_id, groove_bottom_diameter) = (groove_bottom_diameter - ring_id) / ring_id;

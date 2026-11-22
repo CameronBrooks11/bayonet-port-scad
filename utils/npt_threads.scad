@@ -4,10 +4,10 @@
 // ASME B1.20.1. A row is the thread itself, not a fitting. Pure data, so the accessors live inline.
 
 //                ["name"      major_d, tpi, hex_af]
-npt_1_8       = ["1/8 NPT",  10.287,  27,  14.3  ];
-npt_1_4       = ["1/4 NPT",  13.716,  18,  17.5  ];
-npt_3_8       = ["3/8 NPT",  17.145,  18,  20.6  ];
-npt_1_2       = ["1/2 NPT",  21.336,  14,  26.0  ];
+npt_1_8 = ["1/8 NPT", 10.287, 27, 14.3];
+npt_1_4 = ["1/4 NPT", 13.716, 18, 17.5];
+npt_3_8 = ["3/8 NPT", 17.145, 18, 20.6];
+npt_1_2 = ["1/2 NPT", 21.336, 14, 26.0];
 
 npt_threads = [npt_1_8, npt_1_4, npt_3_8, npt_1_2];
 

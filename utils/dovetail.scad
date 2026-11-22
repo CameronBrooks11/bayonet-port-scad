@@ -36,11 +36,11 @@ function dovetail_root_width(width, height, angle) = width - 2 * height * tan(an
  * @param crown_radius Corner arc radius; defaults to height/4
  */
 module dovetail(width, height, length, allowance = 0, root_width = undef, crown_radius = undef) {
-  r = is_undef(crown_radius) ? height / 4 : crown_radius;
+    r = is_undef(crown_radius) ? height / 4 : crown_radius;
 
-  linear_extrude(height=length)
-    offset(delta=allowance)
-      // shrink then grow: every sharp corner comes back as an arc tangent to both edges
-      offset(r=r) offset(r=-r)
-        trapezium(is_undef(root_width) ? width * 2 / 3 : root_width, width, height);
+    linear_extrude(height=length)
+        offset(delta=allowance)
+            // shrink then grow: every sharp corner comes back as an arc tangent to both edges
+            offset(r=r) offset(r=-r)
+                    trapezium(is_undef(root_width) ? width * 2 / 3 : root_width, width, height);
 }

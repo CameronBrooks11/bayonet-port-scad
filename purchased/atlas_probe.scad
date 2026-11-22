@@ -32,51 +32,51 @@ function atlas_probe_part_number(type) = type[7]; // what to order it by; the SK
  * @param wire_h Height of the wire stub (display only; arbitrary length for visualization or difference cuts)
  */
 module atlas_probe(type, wire_h = 10) {
-  neck_d = atlas_probe_neck_dia(type);
-  neck_h = atlas_probe_neck_height(type);
-  neck_taper_d = atlas_probe_neck_taper_dia(type);
-  body_d = atlas_probe_body_dia(type);
-  body_h = atlas_probe_body_height(type);
-  tip_d = atlas_probe_tip_dia(type);
-  tip_h = atlas_probe_tip_height(type);
-  wire_d = atlas_probe_wire_dia(type);
-  accent_color = atlas_probe_accent_color(type);
+    neck_d = atlas_probe_neck_dia(type);
+    neck_h = atlas_probe_neck_height(type);
+    neck_taper_d = atlas_probe_neck_taper_dia(type);
+    body_d = atlas_probe_body_dia(type);
+    body_h = atlas_probe_body_height(type);
+    tip_d = atlas_probe_tip_dia(type);
+    tip_h = atlas_probe_tip_height(type);
+    wire_d = atlas_probe_wire_dia(type);
+    accent_color = atlas_probe_accent_color(type);
 
-  // None of the atlas probes are pink, so we set this so its obvious
-  // that the color is unset and will apply for custom probes by default
-  accent_color_eff = is_undef(accent_color) ? "Pink" : accent_color;
+    // None of the atlas probes are pink, so we set this so its obvious
+    // that the color is unset and will apply for custom probes by default
+    accent_color_eff = is_undef(accent_color) ? "Pink" : accent_color;
 
-  colors = ["Black", accent_color_eff, "Black", "Yellow"];
+    colors = ["Black", accent_color_eff, "Black", "Yellow"];
 
-  union() {
-    // Wire
-    translate([0, 0, -wire_h]) color(colors[0]) cylinder(h=wire_h, d=wire_d, $fn=64);
+    union() {
+        // Wire
+        translate([0, 0, -wire_h]) color(colors[0]) cylinder(h=wire_h, d=wire_d, $fn=64);
 
-    // Neck
-    color(colors[1]) cylinder(h=neck_h, d2=neck_d, d1=neck_taper_d, $fn=64);
+        // Neck
+        color(colors[1]) cylinder(h=neck_h, d2=neck_d, d1=neck_taper_d, $fn=64);
 
-    // Body
-    translate([0, 0, neck_h]) color(colors[2]) cylinder(h=body_h, d=body_d, $fn=64);
+        // Body
+        translate([0, 0, neck_h]) color(colors[2]) cylinder(h=body_h, d=body_d, $fn=64);
 
-    depth = 6;
-    thick = 2;
-    curve_scale_y = 0.5;
-    cut_size = tip_d / 3;
-    curve_comp = cut_size * curve_scale_y * 0.5;
+        depth = 6;
+        thick = 2;
+        curve_scale_y = 0.5;
+        cut_size = tip_d / 3;
+        curve_comp = cut_size * curve_scale_y * 0.5;
 
-    // Sensing Tip
-    translate([0, 0, neck_h + body_h]) color(colors[3], alpha=0.5) difference() {
-          cylinder(h=tip_h, d=tip_d, $fn=64);
+        // Sensing Tip
+        translate([0, 0, neck_h + body_h]) color(colors[3], alpha=0.5) difference() {
+                    cylinder(h=tip_h, d=tip_d, $fn=64);
 
-          translate([0, 0, tip_h - depth]) cylinder(h=depth + z_fight, d=tip_d - thick * 2, $fn=64);
+                    translate([0, 0, tip_h - depth]) cylinder(h=depth + z_fight, d=tip_d - thick * 2, $fn=64);
 
-          for (i = [0:1])
-            rotate([0, 0, 90 * i]) translate([0, tip_d, tip_h - depth + curve_comp + z_fight])
-                rotate([90, 0, 0]) linear_extrude(tip_d * 2) union() {
+                    for (i = [0:1])
+                        rotate([0, 0, 90 * i]) translate([0, tip_d, tip_h - depth + curve_comp + z_fight])
+                                rotate([90, 0, 0]) linear_extrude(tip_d * 2) union() {
 
-                      trapezium(bottom_width=cut_size, top_width=cut_size - thick / 2, height=depth - curve_comp);
-                      scale([1, curve_scale_y, 1]) circle(d=cut_size);
-                    }
-        }
-  }
+                                            trapezium(bottom_width=cut_size, top_width=cut_size - thick / 2, height=depth - curve_comp);
+                                            scale([1, curve_scale_y, 1]) circle(d=cut_size);
+                                        }
+                }
+    }
 }

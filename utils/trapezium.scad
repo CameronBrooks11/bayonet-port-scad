@@ -18,7 +18,7 @@
  * @return The trapezium polygon
  */
 module trapezium(bottom_width, top_width = undef, height = undef, angle = 45, offset = 0) {
-  polygon(points=trapezium_pts(bottom_width, top_width, height, angle, offset));
+    polygon(points=trapezium_pts(bottom_width, top_width, height, angle, offset));
 }
 
 /**
@@ -31,22 +31,22 @@ module trapezium(bottom_width, top_width = undef, height = undef, angle = 45, of
  * @return The points of the trapezium shape
  */
 function trapezium_pts(bottom_width, top_width = undef, height = undef, angle = 45, offset = 0) =
-  let (
-    top_width = is_undef(top_width) ? // check top_width undef
-      (
-        is_undef(height) // check if height is undef
-        ? bottom_width / 2 // if height is also undef, set top width to half of bottom width
-        : bottom_width - 2 * height * tan(angle)
-      ) // if height is provided, calculate top width
-    : top_width, // if top width is provided, use it
+    let (
+        top_width = is_undef(top_width) ? // check top_width undef
+            (
+                is_undef(height) // check if height is undef
+                ? bottom_width / 2 // if height is also undef, set top width to half of bottom width
+                : bottom_width - 2 * height * tan(angle)
+            ) // if height is provided, calculate top width
+        : top_width, // if top width is provided, use it
 
-    // Next calculate height if it is not provided
-    height = is_undef(height) ? // check if height is undef
-      (bottom_width - top_width) / (2 * tan(angle)) // calculate height based on the angle and width difference
-    : height // if height is provided, use it
-  ) [
-      [-bottom_width / 2, 0], // Bottom left
-      [bottom_width / 2, 0], // Bottom right
-      [offset + top_width / 2, height], // Top right
-      [offset - top_width / 2, height], // Top left
-  ];
+        // Next calculate height if it is not provided
+        height = is_undef(height) ? // check if height is undef
+            (bottom_width - top_width) / (2 * tan(angle)) // calculate height based on the angle and width difference
+        : height // if height is provided, use it
+    ) [
+            [-bottom_width / 2, 0], // Bottom left
+            [bottom_width / 2, 0], // Bottom right
+            [offset + top_width / 2, height], // Top right
+            [offset - top_width / 2, height], // Top left
+    ];
