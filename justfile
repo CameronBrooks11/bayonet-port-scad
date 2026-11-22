@@ -13,7 +13,7 @@ setup:
 check:
     #!/usr/bin/env bash
     set -uo pipefail
-    export OPENSCADPATH="${OPENSCADPATH:-$PWD/.scadman/env}"
+    export OPENSCADPATH="$PWD/.scadman/env"  # the pinned libraries only, whatever the shell sets
     "{{openscad}}" --version
     tmp=$(mktemp -d) && trap 'rm -rf "$tmp"' EXIT
     failed=0
@@ -32,7 +32,7 @@ check:
 test:
     #!/usr/bin/env bash
     set -uo pipefail
-    export OPENSCADPATH="${OPENSCADPATH:-$PWD/.scadman/env}"
+    export OPENSCADPATH="$PWD/.scadman/env"  # the pinned libraries only, whatever the shell sets
     tmp=$(mktemp -d) && trap 'rm -rf "$tmp"' EXIT
     backend=""
     case "$("{{openscad}}" --help 2>&1)" in *--backend*) backend="--backend=CGAL" ;; esac
