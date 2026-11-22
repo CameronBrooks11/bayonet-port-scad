@@ -5,7 +5,9 @@ OpenSCAD bayonet ports for lab vessels, built on
 cut into a panel and a pin half that twists into it, sealed by an o-ring. Variants take a probe in a
 flex collet, a thermocouple on an NPT mount, or a baffle plate.
 
-![check](https://github.com/CameronBrooks11/bayonet-port-scad/actions/workflows/check.yml/badge.svg)
+![test](https://github.com/CameronBrooks11/bayonet-port-scad/actions/workflows/test.yml/badge.svg)
+
+![A blank std pin, a pH probe port with its flex collet, and a thermocouple port with a 1/8 NPT mount](docs/img/ports.png)
 
 ## Contents
 
@@ -47,11 +49,17 @@ consumer lists only this library.
 
 ```sh
 just setup   # install the pinned libraries into .scadman/env
-just check   # render every file and fail on any error or warning
-just test    # render the example to a mesh on CGAL, which reports a non-manifold solid
+just check   # check the formatting, then render every file and fail on any error or warning
+just test    # render the example to a mesh, then check both halves of every interface
+just fmt     # format the .scad files with topiary 0.8.0
+just images  # render the picture above into docs/img/
 ```
 
-CI runs both on the OpenSCAD snapshot it pins (2026.10.15).
+`just test` renders the example on CGAL, which reports a solid that is not 2-manifold. It then
+renders the pin and lock halves of `bayonet_std`, `mini`, `midi`, `large` and `xl`. Each half must be
+one solid with no warning or error, and each pin as wide as its flange.
+
+CI runs `just check` and `just test` on the OpenSCAD snapshot it pins (2026.10.15).
 
 ## Origin and licence
 

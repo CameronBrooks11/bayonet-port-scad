@@ -10,7 +10,7 @@ setup:
     scadman sync
 
 # Render every library file and fail on any error or warning; the files emit no geometry, the example does.
-check:
+check: fmt-check
     #!/usr/bin/env bash
     set -uo pipefail
     export OPENSCADPATH="$PWD/.scadman/env"  # the pinned libraries only, whatever the shell sets
@@ -28,7 +28,7 @@ check:
     done
     exit $failed
 
-# Render the example to a mesh on CGAL, which reports a solid that is not 2-manifold.
+# Render the example to a 2-manifold mesh on CGAL, then check both halves of every interface.
 test:
     #!/usr/bin/env bash
     set -uo pipefail
@@ -41,3 +41,20 @@ test:
         echo "FAIL  examples/ports.scad"; grep -m3 -E '^(ERROR|WARNING)|Assertion' "$tmp/err"; exit 1
     fi
     echo "ok    examples/ports.scad renders to a 2-manifold mesh"
+    python3 tests/test_ports.py "{{openscad}}"
+
+# Render the README picture into docs/img/.
+images:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    export OPENSCADPATH="$PWD/.scadman/env"  # the pinned libraries only, whatever the shell sets
+    mkdir -p docs/img
+    "{{openscad}}" --render --colorscheme=Tomorrow --imgsize=900,560 --viewall --autocenter --camera=0,0,0,62,0,20,0 -o docs/img/ports.png examples/ports.scad
+
+# Format the .scad sources with topiary (.topiary/languages.ncl)
+fmt:
+    git ls-files -z '*.scad' | xargs -0 -r topiary format
+
+# Check the .scad sources are formatted, without changing them
+fmt-check:
+    git ls-files -z '*.scad' | xargs -0 -r -n1 topiary format --check

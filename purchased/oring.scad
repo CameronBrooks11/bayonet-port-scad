@@ -20,11 +20,11 @@ function oring_colour(type) = type[5]; // as supplied
 
 // id is the installed inside diameter; defaults to the free one.
 module oring(type, id = undef) {
-  _id = is_undef(id) ? oring_inner_diameter(type) : id;
-  _cs = oring_cross_section(type);
+    _id = is_undef(id) ? oring_inner_diameter(type) : id;
+    _cs = oring_cross_section(type);
 
-  color(oring_colour(type))
-    rotate_extrude()
-      translate([(_id + _cs) / 2, 0])
-        circle(d=_cs, $fn=$preview ? 12 : 24);
+    color(oring_colour(type))
+        rotate_extrude()
+            translate([(_id + _cs) / 2, 0])
+                circle(d=_cs, $fn=$preview ? 12 : 24);
 }
