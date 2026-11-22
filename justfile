@@ -10,7 +10,7 @@ setup:
     scadman sync
 
 # Render every library file and fail on any error or warning; the files emit no geometry, the example does.
-check:
+check: fmt-check
     #!/usr/bin/env bash
     set -uo pipefail
     export OPENSCADPATH="$PWD/.scadman/env"  # the pinned libraries only, whatever the shell sets
@@ -41,3 +41,11 @@ test:
         echo "FAIL  examples/ports.scad"; grep -m3 -E '^(ERROR|WARNING)|Assertion' "$tmp/err"; exit 1
     fi
     echo "ok    examples/ports.scad renders to a 2-manifold mesh"
+
+# Format the .scad sources with topiary (.topiary/languages.ncl)
+fmt:
+    git ls-files -z '*.scad' | xargs -0 -r topiary format
+
+# Check the .scad sources are formatted, without changing them
+fmt-check:
+    git ls-files -z '*.scad' | xargs -0 -r -n1 topiary format --check
