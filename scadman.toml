@@ -1,0 +1,17 @@
+# The OpenSCAD libraries these files use. A consumer that pins this library through scadman gets
+# them too, at these revisions, so it lists only bayonet-port-scad; a consumer that pins either of
+# them itself has to pin it at the same revision, or `scadman lock` stops with a conflict.
+
+[project]
+name = "bayonet-port-scad"
+
+# The bayonet coupling the ports are built on (custom/bayonet_port.scad).
+[dependencies.bayonet-lock-scad]
+git = "https://github.com/CameronBrooks11/bayonet-lock-scad"
+tag = "v0.12.0"
+
+# The NPT mount's thread (custom/bayonet_port.scad). It publishes no tags, so it is pinned to a
+# commit.
+[dependencies.threads-scad]
+git = "https://github.com/rcolyer/threads-scad"
+rev = "4ae9aeb3b136f9858200f77a304b909a000ce3b4"
